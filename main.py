@@ -4,7 +4,6 @@ from Crypto.Util.Padding import pad, unpad
 import sys
 import os
 import shutil
-from time import sleep
 
 AES_BLOCK_SIZE = AES.block_size
 AES_KEY_SIZE = 16
