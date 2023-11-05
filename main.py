@@ -12,6 +12,7 @@ try:
     key = sys.argv[sys.argv.index('-key') + 1]
 except (IOError, ValueError):
     print("Please specify the key")
+    sys.exit()
 
 def PadKey(key):
    if len(key) > AES_KEY_SIZE:
