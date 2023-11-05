@@ -4,14 +4,15 @@ from Crypto.Util.Padding import pad, unpad
 import sys
 import os
 import shutil
+from time import sleep
 
 AES_BLOCK_SIZE = AES.block_size
 AES_KEY_SIZE = 16
+
 try:
     key = sys.argv[sys.argv.index('-key') + 1]
 except (IOError, ValueError):
-               print("Please specify the key")
-               sys.exit(1)
+    print("Please specify the key")
 
 def PadKey(key):
    if len(key) > AES_KEY_SIZE:
@@ -45,7 +46,7 @@ def RemoveSuffix(data):
 
 if __name__ == '__main__':
    if len(sys.argv) < 3:
-       print("Usage: python aes_encrypt.py <operation> [-dir <input_dir> -odir <output_dir>] [-input <input_file>]")
+       print("Usage: python main.py <operation> [-dir <input_dir> -odir <output_dir>] [-input <input_file>] [-key <your_key>]")
        sys.exit(1)
 
    operation = sys.argv[1]
