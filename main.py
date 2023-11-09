@@ -6,13 +6,12 @@ import os
 import shutil
 
 AES_BLOCK_SIZE = AES.block_size
-AES_KEY_SIZE = 16
+AES_KEY_SIZE = 32
 
 try:
     key = sys.argv[sys.argv.index('-key') + 1]
 except (IOError, ValueError):
     print("Please specify the key")
-    sys.exit()
 
 def PadKey(key):
    if len(key) > AES_KEY_SIZE:
