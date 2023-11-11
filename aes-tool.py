@@ -58,9 +58,10 @@ def process_directory(input_dir, output_dir, key, operation):
 
             if operation in ['enc', 'encrypt']:
                 try:
-                    encoded_data = base64_encode(data)
+                    ext = os.path.splitext(input_file)[1]
+                    encoded_data = base64_encode(data) + ext
                     encrypted_data = encrypt(key, encoded_data.encode())
-                    output_file = output_file + '.zaes'
+                    output_file = os.path.splitext(output_file)[0] + '.zaes'
 
                     with open(output_file, 'wb') as f:
                         f.write(encrypted_data)
@@ -73,8 +74,9 @@ def process_directory(input_dir, output_dir, key, operation):
                     with open(input_file, 'rb') as f:
                         encrypted_data = f.read()
                     decrypted_data = decrypt(key, encrypted_data)
-                    decoded_data = base64_decode(decrypted_data.decode())
-                    output_file = output_file.replace('.zaes', '')
+                    decoded_data, ext = os.path.splitext(decrypted_data.decode())
+                    decoded_data = base64_decode(decoded_data)
+                    output_file = os.path.splitext(output_file)[0] + ext
 
                     with open(output_file, 'wb') as f:
                         f.write(decoded_data)
@@ -96,9 +98,10 @@ def process_single_file(input_file, key, operation):
 
     if operation in ['enc', 'encrypt']:
         try:
-            encoded_data = base64_encode(data)
+            ext = os.path.splitext(input_file)[1]
+            encoded_data = base64_encode(data) + ext
             encrypted_data = encrypt(key, encoded_data.encode())
-            output_file = input_file + '.zaes'
+            output_file = os.path.splitext(input_file)[0] + '.zaes'
 
             with open(output_file, 'wb') as f:
                 f.write(encrypted_data)
@@ -111,8 +114,9 @@ def process_single_file(input_file, key, operation):
             with open(input_file, 'rb') as f:
                 encrypted_data = f.read()
             decrypted_data = decrypt(key, encrypted_data)
-            decoded_data = base64_decode(decrypted_data.decode())
-            output_file = input_file.replace('.zaes', '')
+            decoded_data, ext = os.path.splitext(decrypted_data.decode())
+            decoded_data = base64_decode(decoded_data)
+            output_file = input_file.replace('.zaes', '') + ext
 
             with open(output_file, 'wb') as f:
                 f.write(decoded_data)
