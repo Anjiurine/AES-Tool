@@ -36,13 +36,6 @@ def Base64Encode(data):
 def Base64Decode(data):
    return base64.b64decode(data.encode('utf-8'))
 
-def AddSuffix(data, suffix):
-   return data + base64.b64encode(suffix.encode()).decode('utf-8')
-
-def RemoveSuffix(data):
-   suffix_length = 8
-   return data[:-suffix_length], base64.b64decode(data[-suffix_length:]).decode('utf-8')
-
 if __name__ == '__main__':
    if len(sys.argv) < 3:
        print("Usage: python main.py <operation> [-dir <input_dir> -odir <output_dir>] [-input <input_file>] [-key <your_key>]")
@@ -76,10 +69,8 @@ if __name__ == '__main__':
 
                if operation == 'encrypt':
                    encodedData = Base64Encode(bytes)
-                   suffix = os.path.splitext(input_file)[1]
-                   encodedData = AddSuffix(encodedData, suffix)
                    encryptedData = EnCrypt(key, encodedData.encode())
-                   output_file = output_file.replace(suffix, '.aes')
+                   output_file = output_file + '.zaes' 
                    try:
                        with open(output_file, 'wb') as f:
                            f.write(encryptedData)
@@ -93,12 +84,11 @@ if __name__ == '__main__':
                        with open(input_file, 'rb') as f:
                            encryptedData = f.read()
                        decryptData = DeCrypt(key, encryptedData)
-                       decodedData, suffix = RemoveSuffix(decryptData.decode())
-                       decodedData = Base64Decode(decodedData)
-                       output_file = output_file.replace('.aes', suffix)
+                       decodedData = Base64Decode(decryptData.decode())
+                       output_file = output_file.replace('.zaes', '')
                        with open(output_file, 'wb') as f:
                            f.write(decodedData)
-                       shutil.copyfile(output_file, output_folder)
+                       shutil.copyfile(output_file, output_folder)  
                        print(f"Decrypted data written to {output_file}")
                    except (IOError, ValueError):
                        print(f"Input file {input_file} cannot be decrypted.")
@@ -114,10 +104,8 @@ if __name__ == '__main__':
 
        if operation == 'encrypt':
            encodedData = Base64Encode(bytes)
-           suffix = os.path.splitext(input_file)[1]
-           encodedData = AddSuffix(encodedData, suffix)
            encryptedData = EnCrypt(key, encodedData.encode())
-           output_file = input_file.replace(suffix, '.aes')
+           output_file = input_file + '.zaes'
            try:
                with open(output_file, 'wb') as f:
                    f.write(encryptedData)
@@ -130,9 +118,8 @@ if __name__ == '__main__':
                with open(input_file, 'rb') as f:
                    encryptedData = f.read()
                decryptData = DeCrypt(key, encryptedData)
-               decodedData, suffix = RemoveSuffix(decryptData.decode())
-               decodedData = Base64Decode(decodedData)
-               output_file = input_file.replace('.aes', suffix)
+               decodedData = Base64Decode(decryptData.decode())
+               output_file = input_file.replace('.zaes', '')
                with open(output_file, 'wb') as f:
                    f.write(decodedData)
                print(f"Decrypted data written to {output_file}")
