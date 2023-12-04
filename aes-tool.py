@@ -21,7 +21,7 @@ def main():
     elif args.file:
         file.process_single_file(args.file, key, args.operation)
     else:
-        print("Please specify either -d or -f.")
+        parser.print_help()
         sys.exit(1)
 
 if __name__ == '__main__':
